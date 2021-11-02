@@ -1,0 +1,31 @@
+version: "3.1"
+
+services:
+  scheduler:
+    # image: cmdstanpy_dask:dev
+    image: daskdev/dask:2021.10.0-py3.9
+    hostname: scheduler
+    ports:
+      - "8786:8786"  # scheduler
+      - "8787:8787"  # dashboard. client uses this to sense when scheduler healthy.
+    command: ["dask-scheduler"]
+
+  worker:
+    image: cmdstanpy_dask:dev
+    command: ["dask-worker", "--nprocs", "1", "--nthreads", "1", "tcp://scheduler:8786"]
+    depends_on:
+      - "scheduler"
+
+  client:
+    image: cmdstanpy_dask:dev
+    volumes:
+      - ${PWD}/start_client.sh:/opt/demo/start_client.sh
+      - ${PWD}/client.py:/opt/demo/client.py
+    command: ["/bin/bash", "/opt/demo/start_client.sh"]
+    environment:
+      DASK_SCHEDULER_HOST: "scheduler"
+      DASK_SCHEDULER_PORT: 8786
+      DASK_SCHEDULER_DASHBOARD_PORT: 8787
+    depends_on:
+      - "scheduler"
+      - "worker"
