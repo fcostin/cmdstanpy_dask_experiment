@@ -9,4 +9,4 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: run batch demo using docker-compose
-      run: ./demo_batch.sh
+      run: ./batch_demo.sh
