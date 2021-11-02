@@ -9,7 +9,7 @@ dask & cmdstanpy experiment
 
 Proof-of-concept experiment illustrating how to combine [dask distributed](http://distributed.dask.org) with the [cmdstanpy](https://github.com/stan-dev/cmdstanpy) interface to the [Stan](https://mc-stan.org/) statistical modelling platform.
 
-This shows how Dask distributed could be use to parallelise work in the simple situation where there is an embarassingly parallel workload to compiling and sample from a large number of Stan models.  In this demo we prevent Stan from using many processes or threads when sampling from each individual Stan model and instead use Dask distributed to share the work of compiling and sampling models across a number of Dask worker processes, each isolated into their own container.
+This shows how Dask distributed could be use to parallelise work in the simple situation where there is an embarassingly parallel workload to compile and sample from a large number of Stan models.  In this demo we prevent Stan from using many processes or threads when sampling from each individual Stan model and instead use Dask distributed to share the work of compiling and sampling models across a number of Dask worker processes, each isolated into their own container.
 
 ### Running the demo locally
 
