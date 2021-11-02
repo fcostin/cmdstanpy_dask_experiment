@@ -33,8 +33,8 @@ Once `client.py` finishes you will need to hit `CTRL^C` to interrupt `docker-com
 
 CmdStanPy and Dask have different designs, that do not align naturally with each other:
 
-*	Dask wants to distribute and execute a directed graph of pure-functional functions across n worker machines
-*	CmdStanPy assumes each model can read and write a bunch of things to the local filesystem. State (compiled models, sampler output) is stored in the filesystem, not as simple data values in memory.
+*	Dask wants to distribute and execute a directed graph of pure-functional functions across n worker machines. The arguments and return value from each function should be data values that survive being serialised and sent over the wire to new machine.
+*	CmdStanPy assumes each model can read and write a bunch of things to the local filesystem. State (compiled models, sampler output) is stored in the filesystem, not as simple data values in memory. When a CmdStanPy model object is serialised sent over the wire, all the files it references in the local filesystem are not transferred.
 
 By default, if you attempt to use Dask to compile a CmdStanPy model on machine A, then distribute the model value to machine B and then sample from that model on machine B, it doesn't work, as machine B tries to read the filesytem paths stored internally in the model, but then cannot find those files as the machines have different filesystems.
 
